@@ -20,17 +20,30 @@ function FlashCardsStatusBar({ backgroundColor, ...props }) {
   )
 }
 
+
+
 const Tabs = TabNavigator({
-  Home: {
+  AllFlashcards: {
     screen: AllFlashcards,
+    navigationOptions: {
+      tabBarLabel: 'Home' 
+    },
   },
-  NewCard: {
+  NewFlashCard: {
     screen: NewFlashCard,
     navigationOptions: {
-      tabBarLabel: 'New Card'
-    }
+      tabBarLabel: 'New Card' 
+    },
+  }
+}, {
+  navigationOptions: {
+    header: null
+  },
+  tabBarOptions: {
+    activeTintColor:  white
   }
 })
+ 
 
 
 const MainNavigator = StackNavigator({

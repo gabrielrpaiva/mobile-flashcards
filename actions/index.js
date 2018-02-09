@@ -1,16 +1,18 @@
 export const RECEIVE_CARDS = 'RECEIVE_CARDS'
 export const ADD_CARD = 'ADD_CARD'
 
-export function receiveCards (cards) {
+export function receiveCards (allCards) {
+  console.log("receivveCards: " + allCards)
   return {
     type: RECEIVE_CARDS,
-    cards,
+    allCards,
   }
 }
 
-export function addCard (card) {
+export function addCard (allCards) {
+  console.log("addCard: " + allCards) 
   return {
     type: ADD_CARD,
-    card,
+    allCards,
   }
 }

@@ -1,31 +1,47 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,AsyncStorage } from 'react-native';
 import { getInicialCards } from '../utils/helpers'
 import TextButton from './TextButton'
-import { receiveCards } from '../actions/index'
+import { receiveCards, addCard } from '../actions/index'
 import { connect } from 'react-redux'
-import { getAllCards } from '../utils/api'
+import { getAllCards, setNewCard,verifyAsyncStorage } from '../utils/api'
 
 
 class AllFlashcards extends React.Component {
+  constructor(props) {
 
+    super(props);
+    this.state = {
+      title: 'algo',
+      question: []
+    };
+
+
+  }
 
   componentDidMount() {
     const { receiveCards } = this.props
 
+   AsyncStorage.removeItem("FlashCards:cards")
+//console.log("akikk: " + rt);
+    //receiveCards(null)
+ getAllCards()
+      .then(cards => receiveCards(JSON.parse(cards)))  
 
-    getAllCards().then((cards) => receiveCards(cards))
-    
+       //getAllCards() 
+     // receiveCards(null)
+    //getAllCards() 
+
 
   }
 
-
+ 
 
   render() {
- 
+
 
     const { allCards } = this.props
- 
+
 
     return (
       <View>
@@ -39,7 +55,7 @@ class AllFlashcards extends React.Component {
                 'CardDetail',
                 { entryId: key }
               )}>
-                {title}{"\n"}  Total Cards ( {questions.length} )
+                {title}{"\n"}  Total Cards 
               </TextButton>
 
             </View>
@@ -61,12 +77,13 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-  allCards: state.allCards,
+  allCards: state.allCards
 })
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    receiveCards: () => dispatch(receiveCards())
+    receiveCards: (cards) => dispatch(receiveCards(cards)),
+    addCard: (card) => dispatch(addCard(card)),
   }
 }
 
