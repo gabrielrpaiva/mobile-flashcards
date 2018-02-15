@@ -2,11 +2,12 @@ import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { red } from '../utils/colors'
 
-export default function TextButton ({ children, onPress }) {
+
+const TextButton = ({ children, onPress }) => {
   return (
-    <TouchableOpacity  onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
       <Text style={styles.AndroidSubmitBtn}>{children}</Text>
- 
+
     </TouchableOpacity>
   )
 }
@@ -28,6 +29,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center'
-    
+
   }
 }) 
+
+export default TextButton;
