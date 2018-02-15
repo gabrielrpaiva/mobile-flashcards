@@ -13,7 +13,7 @@ class NewQuestion extends React.Component {
         answer: ''
     };
 
-    validateForm
+     
 
     prepareQuestion = () => {
 
