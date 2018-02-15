@@ -9,19 +9,12 @@ import { NavigationActions } from 'react-navigation'
 
 
 class NewFlashCard extends React.Component {
-  constructor(props) {
-
-    super(props);
-    this.state = {
-      titleText: ''
-    };
-    this.setNewCard = this.setNewCard.bind(this);
-
-  }
+  state = {
+    titleText: ''
+  };
 
 
-
-  setNewCard() {
+  setNewCard = () => {
     const { titleText } = this.state
 
     const { addCard } = this.props;
