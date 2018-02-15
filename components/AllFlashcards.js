@@ -1,73 +1,48 @@
 import React from 'react';
-import { StyleSheet, Text, View,AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, FlatList } from 'react-native';
 import { getInicialCards } from '../utils/helpers'
 import TextButton from './TextButton'
 import { receiveCards, addCard } from '../actions/index'
 import { connect } from 'react-redux'
-import { getAllCards, setNewCard,verifyAsyncStorage } from '../utils/api'
+import { fetchCards, getAllCards, setNewCard, verifyAsyncStorage } from '../utils/api'
 
 
-class AllFlashcards extends React.Component {
-  constructor(props) {
-
-    super(props);
-    this.state = {
-      title: 'algo',
-      question: []
-    };
-
-
-  }
+class AllFlashcards extends React.Component { 
 
   componentDidMount() {
-    const { receiveCards } = this.props
+    const { receiveCards } = this.props     
 
-   AsyncStorage.removeItem("FlashCards:cards")
-//console.log("akikk: " + rt);
-    //receiveCards(null)
- getAllCards()
-      .then(cards => receiveCards(JSON.parse(cards)))  
-
-       //getAllCards() 
-     // receiveCards(null)
-    //getAllCards() 
-
-
+    fetchCards().then(cards => receiveCards(cards));
+ 
   }
 
- 
+  renderItem = ({ item }) => (
+    <View style={styles.container}>
+      <TextButton style={styles.container} onPress={() => this.props.navigation.navigate(
+        'CardDetail',
+        { title: item.title }
+      )}>
+        {item.title}{"\n"}  Total Cards ({item.questions.length})
+       </TextButton>
+    </View>
+  );
 
   render() {
-
-
     const { allCards } = this.props
-
 
     return (
       <View>
-        {Object.keys(allCards).map((key) => {
-          const { title, questions, ...rest } = allCards[key]
-
-
-          return (
-            <View key={title}>
-              <TextButton style={styles.container} onPress={() => this.props.navigation.navigate(
-                'CardDetail',
-                { entryId: key }
-              )}>
-                {title}{"\n"}  Total Cards 
-              </TextButton>
-
-            </View>
-          )
-        })}
+        <FlatList
+          data={Object.values(allCards).sort((a, b) => a.title > b.title)}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index} />
       </View>
     )
+
 
   }
 
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -77,7 +52,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-  allCards: state.allCards
+  allCards: state
 })
 
 const mapDispatchToProps = (dispatch) => {

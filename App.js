@@ -4,13 +4,16 @@ import AllFlashcards from './components/AllFlashcards'
 import NewFlashCard from './components/NewFlashCard'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import { blue, white } from './utils/colors'
+import { blue, white,gray,newBlue } from './utils/colors'
 import { Constants } from 'expo'
 import CardDetail from './components/CardDetail'
+import NewQuestion from './components/NewQuestion'
+import Quiz from './components/Quiz'
 import { createStore,applyMiddleware } from 'redux'
 import {createLogger} from 'redux-logger'  
 import { Provider } from 'react-redux'
 import reducer from './reducers'
+import {setLocalNotification} from './utils/helpers';
 
 function FlashCardsStatusBar({ backgroundColor, ...props }) {
   return (
@@ -56,29 +59,52 @@ const MainNavigator = StackNavigator({
   CardDetail: {
     screen: CardDetail,
     navigationOptions: {
-      headerTintColor: white,
+      headerTintColor: white, 
       headerStyle: {
-        backgroundColor: blue,
+        backgroundColor: newBlue,
+      }
+    }
+  },
+  NewQuestion: {
+    screen: NewQuestion,
+    navigationOptions: {
+      title: 'Add Your Question',
+      headerTintColor: white, 
+      headerStyle: {
+        backgroundColor: newBlue,
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      title: 'Quiz',
+      headerTintColor: white, 
+      headerStyle: {
+        backgroundColor: newBlue,
       }
     }
   }
 })
-
-//const middleware = applyMiddleware( createLogger );
-//export default createStore(reducer, middleware);
-
-
+ 
 
 const store =  (createStore)(reducer, 
   applyMiddleware(createLogger())
 ) 
+
+
  
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification();
+}
+
   render() {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
-          <FlashCardsStatusBar backgroundColor={blue} barStyle="light-content" />
+          <FlashCardsStatusBar backgroundColor={white} barStyle="light-content" />
           <MainNavigator />
         </View>
       </Provider>
@@ -90,7 +116,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: white,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,41 +1,47 @@
+import {AsyncStorage} from 'react-native';
+import {Notifications, Permissions} from 'expo';
+import { NOTIFICATION_KEY } from './_cards' 
 
-
-export function getInicialCards(card) {
-  const cards = {
-    Bowie: {
-      title: 'David Bowie',
-      questions: [
-        {
-          question: 'Em que país Bowie gravou sua famosa trilogi?',
-          answer: 'Alemanha'
+function buildNotification() {
+    return {
+        title: 'Mobile Flashcards',
+        body: "Checkout the new questions today",
+        ios: {
+            sound: true
         },
-        {
-          question: "A capa do album 'BlackStar' faz referencia a qual outra capa de do Bowie?",
-          answer: 'Heroes'
+        android: {
+            sound: true
         },
-        {
-          question: "Quem compôs a música 'Fame' junto de Bowie?",
-          answer: 'Jhon Lennon'
-        }
-      ]
-    },
-    Radiohead: {
-      title: 'Radiohead',
-      questions: [
-        {
-          question: 'Em qual cidade inglesa a banda se formou?',
-          answer: 'Oxford'
-        },
-        {
-          question: "Qual foi o primeiro algun que Nigle Gondrich produziu?",
-          answer: 'OK Computer'
-        }
-      ]
-    }
-  }
+    };
+}
 
-  return typeof card === 'undefined'
-  ? cards
-  : cards[card]
+export function setLocalNotification() {
+    AsyncStorage.getItem(NOTIFICATION_KEY)
+        .then(JSON.parse)
+        .then(data => {
+            console.log("data: " + data)
+            if (!data) {
+                Permissions.askAsync(Permissions.NOTIFICATIONS).then(({status}) => {
+                    
+                    if (status === 'granted') {
+                        Notifications.cancelAllScheduledNotificationsAsync().then(() => {
+                            let today = new Date();
+                            today.setDate(today.getDate());
+                            today.setHours(23, 0, 0);
 
+                            const notification = buildNotification();
+
+                            Notifications.scheduleLocalNotificationAsync(notification, {
+                                time: today,
+                                repeat: 'day',
+                            }).then(result => {
+
+                            });
+                        });
+
+                        AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
+                    }
+                });
+            }
+        });
 }

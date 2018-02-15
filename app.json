@@ -1,5 +1,13 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
+    "sdkVersion": "23.0.0",
+    "orientation": "portrait",
+    "name": "MusicCardsQuiz",
+    "description": "Same quiz about music",
+    "slug": "musiccardsquiz",
+    "version": "1.0", 
+    "android": {
+      "package": "org.udacifitness.exp"
+    }
   }
 }

@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput,TouchableOpacity,Alert } from 'react-native';
 import { connect } from 'react-redux'
 import TextButton from './TextButton'
 import { addCard, receiveCards } from '../actions/index'
-import { setNewCard,getAllCards } from '../utils/api'
-import { NavigationActions } from 'react-navigation' 
+import { red, black, grayPlus,white,gray } from '../utils/colors'
+import { setNewCard, getAllCards } from '../utils/api'
+import { NavigationActions } from 'react-navigation'
 
 
 
@@ -14,55 +15,46 @@ class NewFlashCard extends React.Component {
 
     super(props);
     this.state = {
-      title: '',
-      question: []
-      };
-      this.setNewCard = this.setNewCard.bind(this);
-    
-    }
-   
-
-
-  setNewCard() {
-    const { title } = this.state
-   console.log("antes: ") 
-   // const { card } = this.props
-   const stateCopy = Object.assign({}, this.state);
-
-   const allCards ={[this.state.title]: stateCopy};
-
-   console.log("stateCopyf: " + stateCopy)
-   setNewCard(allCards).then(addCard({
-    allCards
-  })).then(
-    
-    getAllCards().then(cards => receiveCards(JSON.parse(cards))).
-    then(this.props.navigation.dispatch(NavigationActions.back({key: 'NewFlashCard'})))
-   )
-
-   
-   
-   console.log("deposif")
-  // getAllCards().then((cards) => receiveCards(cards))
-    //console.log("veja: " + card) 
-    //addCard(this.state.title)
+      titleText: ''
+    };
+    this.setNewCard = this.setNewCard.bind(this);
 
   }
 
+
+
+  setNewCard() {
+    const { titleText } = this.state
+
+    const { addCard } = this.props;
+
+    const card = { [titleText]: { title: titleText, questions: [] } };   
+
+    setNewCard(card)
+      .then( 
+        Alert.alert('Successful', 'Your card was successfully add',
+        [
+          addCard(card),
+            {
+                text: 'OK', onPress: () =>                
+                this.props.navigation.goBack()
+            }
+        ], )
+      
+      )
+  }
+
   render() {
-  
-  //  const { title } = this.state
-    //console.log("vejass: " + this.state) 
-   // console.log("vejaAki: " + title) 
+ 
     return (
-      <View>
-        <Text>Teste</Text>
-        <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={(title) => this.setState({ title })}
-          value={this.state.title} />
-         <TextButton style={{padding: 10}} onPress={this.setNewCard}>
-         Add Card
-       </TextButton>
+      <View style={style.container}>
+        <Text>Add a new card name</Text>
+        <TextInput  style={style.input}
+          onChangeText={(titleText) => this.setState({ titleText })}
+          value={this.state.titleText} />
+        <TouchableOpacity style={style.addCardButton} onPress={this.setNewCard}>
+          <Text style={style.addCardText}>Add Card </Text>
+       </TouchableOpacity>
       </View>
     )
 
@@ -70,9 +62,37 @@ class NewFlashCard extends React.Component {
 
 }
 
-const mapStateToProps = (state) => ({   
-  title: state.title,
-  allCards: state.allCards 
+const style = StyleSheet.create({   
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 20,
+},
+  input: {
+      width: 300,
+      height: 56,
+      padding: 12,
+      borderWidth: 1,
+      borderColor: gray,
+      margin: 16
+  },
+  addCardButton: {
+    backgroundColor: red,
+    padding: 12,
+    height: 44,
+    borderRadius: 7
+},   
+addCardText: {
+  color: white,
+  fontSize: 22,
+  textAlign: 'center',
+}
+
+});
+
+const mapStateToProps = (state) => ({
+  titleText: state.titleText,
+  allCards: state.allCards
 })
 
 const mapDispatchToProps = (dispatch) => {
@@ -82,4 +102,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(NewFlashCard);
+export default connect(mapStateToProps, mapDispatchToProps)(NewFlashCard);
