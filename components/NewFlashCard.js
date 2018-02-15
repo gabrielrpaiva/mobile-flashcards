@@ -8,8 +8,6 @@ import { setNewCard, getAllCards } from '../utils/api'
 import { NavigationActions } from 'react-navigation'
 
 
-
-
 class NewFlashCard extends React.Component {
   constructor(props) {
 
@@ -34,7 +32,8 @@ class NewFlashCard extends React.Component {
       .then( 
         Alert.alert('Successful', 'Your card was successfully add',
         [
-          addCard(card),
+          addCard(card), 
+          this.setState({  titleText: ''}),
             {
                 text: 'OK', onPress: () =>                
                 this.props.navigation.goBack()

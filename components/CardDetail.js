@@ -1,53 +1,87 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { red, black, grayPlus } from '../utils/colors'
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 
-class CardDetail extends React.Component { 
+class CardDetail extends React.Component {
     render() {
-      let {title} = this.props.navigation.state.params;
-      const questions = this.props.allCards[title] && this.props.allCards[title].questions;
+        let { title } = this.props.navigation.state.params;
+        const questions = this.props.allCards[title] && this.props.allCards[title].questions;
 
-      return (
-        <View style={styles.container}>
-                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontSize: 36}}>{title}</Text>
-                    <Text style={{fontSize: 22, marginTop: 12}}>{questions.length} cards
-                    </Text>
+
+        if (questions.length > 0) {
+
+            return (
+                <View style={styles.container}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 36 }}>{title}</Text>
+                        <Text style={{ fontSize: 22, marginTop: 12 }}>{questions.length} cards
+                        </Text>
+                    </View>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.navigation.navigate('NewQuestion', {
+                                title,
+                                questions,
+                            });
+                        }}
+                        style={styles.addQuestion}>
+                        <Text style={styles.addQuestionTitle}>Add Question</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.navigation.navigate('Quiz', {
+                                title,
+                                questions,
+                            });
+                        }}
+                        style={styles.startQuiz}>
+                        <Text style={styles.quizTitle}>Start Quiz</Text>
+                    </TouchableOpacity>
+
                 </View>
+            )
 
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('NewQuestion', {
-                            title,
-                            questions,
-                        });
-                    }}
-                    style={styles.addQuestion}>
-                    <Text style={styles.addQuestionTitle}>Add Question</Text>
-                </TouchableOpacity>
+        } else {
 
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('Quiz', {
-                            title,
-                            questions,
-                        });
-                    }}
-                    style={styles.startQuiz}>
-                    <Text style={styles.quizTitle}>Start Quiz</Text>
-                </TouchableOpacity>
+            return (
+                <View style={styles.container}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 36 }}>{title}</Text>
+                        <Text style={{ fontSize: 22, marginTop: 12 }}>{questions.length} cards
+                    </Text>
+                    </View>
 
-            </View>
-      )
-  
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.navigation.navigate('NewQuestion', {
+                                title,
+                                questions,
+                            });
+                        }}
+                        style={styles.addQuestion}>
+                        <Text style={styles.addQuestionTitle}>Add Question</Text>
+                    </TouchableOpacity>
+
+                     
+
+                </View>
+            )
+
+
+        }
+
+
+
     }
-  
-  }
+
+}
 
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 20,
@@ -79,9 +113,9 @@ class CardDetail extends React.Component {
 });
 
 
-  function mapStateToProps(state) {
+function mapStateToProps(state) {
     return {
-      allCards: state,
+        allCards: state,
     };
 }
 
