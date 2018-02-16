@@ -13,7 +13,7 @@ class NewQuestion extends React.Component {
         answer: ''
     };
 
-     
+
 
     prepareQuestion = () => {
 
@@ -39,15 +39,15 @@ class NewQuestion extends React.Component {
             cardName: title
         }).then(
             Alert.alert('Successful', 'Your question was successfully add',
-            [
-                {
-                    text: 'OK', onPress: () =>
-                        this.props.navigation.goBack()
-                }
-            ], )
+                [
+                    {
+                        text: 'OK', onPress: () =>
+                            this.props.navigation.goBack()
+                    }
+                ], )
         );
 
-      
+
     };
 
     render() {
@@ -118,4 +118,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(NewQuestion);
+export default connect(mapStateToProps, mapDispatchToProps)(NewQuestion);
