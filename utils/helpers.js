@@ -2,8 +2,8 @@ import {AsyncStorage} from 'react-native';
 import {Notifications, Permissions} from 'expo';
 import { NOTIFICATION_KEY } from './_cards' 
 
-function buildNotification() {
-    return {
+const buildNotification = {
+    
         title: 'Mobile Flashcards',
         body: "Checkout the new questions today",
         ios: {
@@ -12,14 +12,14 @@ function buildNotification() {
         android: {
             sound: true
         },
-    };
+     
 }
 
 export function setLocalNotification() {
     AsyncStorage.getItem(NOTIFICATION_KEY)
         .then(JSON.parse)
         .then(data => {
-            console.log("data: " + data)
+        
             if (!data) {
                 Permissions.askAsync(Permissions.NOTIFICATIONS).then(({status}) => {
                     

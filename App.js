@@ -9,11 +9,11 @@ import { Constants } from 'expo'
 import CardDetail from './components/CardDetail'
 import NewQuestion from './components/NewQuestion'
 import Quiz from './components/Quiz'
-import { createStore,applyMiddleware } from 'redux'
-import {createLogger} from 'redux-logger'  
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import {setLocalNotification} from './utils/helpers';
+import MainNavigator from './Routes'
+import cardStore from './CardStore'
 
 function FlashCardsStatusBar({ backgroundColor, ...props }) {
   return (
@@ -21,77 +21,7 @@ function FlashCardsStatusBar({ backgroundColor, ...props }) {
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
-}
-
-
-
-const Tabs = TabNavigator({
-  AllFlashcards: {
-    screen: AllFlashcards,
-    navigationOptions: {
-      tabBarLabel: 'Home' 
-    },
-  },
-  NewFlashCard: {
-    screen: NewFlashCard,
-    navigationOptions: {
-      tabBarLabel: 'New Card' 
-    },
-  }
-}, {
-  navigationOptions: {
-    header: null
-  },
-  tabBarOptions: {
-    activeTintColor:  white
-  }
-})
- 
-
-
-const MainNavigator = StackNavigator({
-  Home: {
-    screen: Tabs,
-    navigationOptions: {
-      header: null,
-    }
-  },
-  CardDetail: {
-    screen: CardDetail,
-    navigationOptions: {
-      headerTintColor: white, 
-      headerStyle: {
-        backgroundColor: newBlue,
-      }
-    }
-  },
-  NewQuestion: {
-    screen: NewQuestion,
-    navigationOptions: {
-      title: 'Add Your Question',
-      headerTintColor: white, 
-      headerStyle: {
-        backgroundColor: newBlue,
-      }
-    }
-  },
-  Quiz: {
-    screen: Quiz,
-    navigationOptions: {
-      title: 'Quiz',
-      headerTintColor: white, 
-      headerStyle: {
-        backgroundColor: newBlue,
-      }
-    }
-  }
-})
- 
-
-const store =  (createStore)(reducer, 
-  applyMiddleware(createLogger())
-) 
-
+} 
 
  
 export default class App extends React.Component {
@@ -102,7 +32,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={cardStore}>
         <View style={{ flex: 1 }}>
           <FlashCardsStatusBar backgroundColor={white} barStyle="light-content" />
           <MainNavigator />

@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import { red, black, grayPlus, white, gray, green } from '../utils/colors'
 import CorrectIncorrect from './CorrectIncorrect'
+import ScoreResult from './Score'
 
 export default class Quiz extends React.Component {
 
@@ -42,7 +43,10 @@ export default class Quiz extends React.Component {
     };
 
     startQuiz = () => {
-        this.setState({ questionControl: 0, correctAnswers: 0, shouldShowAnswer: false });
+ 
+        this.setState({ questionControl: 0, correctAnswers: 0, 
+                        shouldShowAnswer: false, 
+                        isQuestionAvailable: true });
     };
 
     backToCards = () => {
@@ -94,13 +98,13 @@ export default class Quiz extends React.Component {
 
                 ) : (
                         <View style={styles.container}>
-                            <Text>Score: {correctAnswers}</Text>
-
+                     {/*    <Text>Score: {correctAnswers}</Text> */}
+                           <ScoreResult correctAnswers={correctAnswers}/>
                             <View style={{ alignItems: 'center', justifyContent: 'space-around', flex: 2 }}>
                                 <View style={styles.container}>
 
                                     <TouchableOpacity
-                                        onPress={this.backToDeck}
+                                        onPress={this.startQuiz}
                                         style={styles.startQuiz}>
                                         <Text style={styles.quizTitle}>Start Quiz</Text>
                                     </TouchableOpacity>

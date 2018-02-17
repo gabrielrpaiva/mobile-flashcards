@@ -3,39 +3,39 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import { red, black, grayPlus, white, gray, green } from '../utils/colors'
 
- 
+
 const CorrectIncorrect = (props) => {
 
-    if (props.showButtos){
+    if (props.showButtos) {
 
         return (
-            <View style={{alignItems: 'center', justifyContent: 'space-around', flex: 2}}>
-            <View style={styles.container}>
+            <View style={{ alignItems: 'center', justifyContent: 'space-around', flex: 2 }}>
+                <View style={styles.container}>
 
-                <TouchableOpacity onPress={props.correctAnswer}>
-                    <Text style={[styles.answerButton,  {backgroundColor: green}]}>Correct</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={props.incorrectAnswer} style={{paddingTop: 12}}>
-                    <Text style={[styles.answerButton,  {backgroundColor: red}]}>Incorrect</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={props.correctAnswer}>
+                        <Text style={[styles.answerButton, { backgroundColor: green }]}>Correct</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={props.incorrectAnswer} style={{ paddingTop: 12 }}>
+                        <Text style={[styles.answerButton, { backgroundColor: red }]}>Incorrect</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
-          )
-    }else{
+        )
+    } else {
         return (
-           <View></View>
-          )
+            <View></View>
+        )
     }
 
-   
-  }
-  
-  const styles = StyleSheet.create({
+
+}
+
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 20,
     },
-    answerButton: {        
+    answerButton: {
         justifyContent: 'center',
         height: 35,
         textAlign: 'center',
@@ -44,4 +44,4 @@ const CorrectIncorrect = (props) => {
     }
 });
 
-  export default CorrectIncorrect;
+export default CorrectIncorrect;

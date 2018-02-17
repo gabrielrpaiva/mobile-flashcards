@@ -17,6 +17,8 @@ class NewFlashCard extends React.Component {
   setNewCard = () => {
     const { titleText } = this.state
 
+    const title = titleText
+
     const { addCard } = this.props;
 
     if (titleText === '') {
@@ -27,7 +29,7 @@ class NewFlashCard extends React.Component {
     const card = { [titleText]: { title: titleText, questions: [] } };
 
     setNewCard(card).then(() => {
-
+        
       addCard(card)
       this.setState({ titleText: '' })
 
@@ -35,7 +37,10 @@ class NewFlashCard extends React.Component {
         [
           {
             text: 'OK', onPress: () =>
-            this.props.navigation.goBack()
+            this.props.navigation.navigate(
+              'CardDetail',
+              { title: title }
+            )
           }
         ], )
 
